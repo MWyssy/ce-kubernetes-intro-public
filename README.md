@@ -57,7 +57,7 @@ Follow the instructions on the Docker website for enabling Kubernetes
 
 [Minikube](https://minikube.sigs.k8s.io/docs/) is another alternative for running a kubernetes cluster locally
 
-The minikube webiste provides a getting started guide for installing minikube
+The minikube website provides a getting started guide for installing minikube
 
 [Minikube getting started guide](https://minikube.sigs.k8s.io/docs/start/)
 
@@ -80,6 +80,147 @@ You should see output similar to (the name will be different if you are on Mini 
 NAME             STATUS   ROLES           AGE     VERSION
 docker-desktop   Ready    control-plane   3h52m   v1.25.2
 ```
+
+You can also check the versions of both the client (kubectl) and server (your cluster) by running:
+
+```
+kubectl version --output=yaml
+```
+
+And you should see output similar to:
+
+```
+clientVersion:
+  buildDate: "2023-01-18T15:51:24Z"
+  compiler: gc
+  gitCommit: 8f94681cd294aa8cfd3407b8191f6c70214973a4
+  gitTreeState: clean
+  gitVersion: v1.26.1
+  goVersion: go1.19.5
+  major: "1"
+  minor: "26"
+  platform: darwin/arm64
+kustomizeVersion: v4.5.7
+serverVersion:
+  buildDate: "2022-09-21T14:27:13Z"
+  compiler: gc
+  gitCommit: 5835544ca568b757a8ecae5c153f317e5736700e
+  gitTreeState: clean
+  gitVersion: v1.25.2
+  goVersion: go1.19.1
+  major: "1"
+  minor: "25"
+  platform: linux/arm64
+```
+
+### Deploying your first container
+
+Have a look over the [deployment.yaml](./kubernetes-example/deployment.yaml) file located in the **kubernetes-example** directory.
+
+Here you encounter your first kubernetes concept in the form of a YAML file. 
+
+In order to configure and run resources on Kubernetes you commonly define them as YAML files and then provide those YAML files to the kubectl command.
+
+Navigate to the kubernetes directory and apply the deployment
+
+```
+kubectl apply -f deployment.yaml
+```
+
+### Exploring the running pods
+
+The deployment will create a series of [Kubernetes pods](https://kubernetes.io/docs/concepts/workloads/pods/) on your cluster.
+
+Let's see if your pods are running
+
+```
+kubectl get pods
+```
+
+And you should see something similar to:
+
+```
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-5f5fb5bf4d-77kz8   1/1     Running   0          43s
+nginx-deployment-5f5fb5bf4d-kvtcm   1/1     Running   0          43s
+nginx-deployment-5f5fb5bf4d-wmbrq   1/1     Running   0          43s
+```
+
+### Exploring the logs
+
+Often you might want to look at the logs of a pod, to find out what happened if an issue occurred. 
+
+Try viewing the logs using the command (replacing the pod name with one of your pod names)
+
+```
+kubectl logs nginx-deployment-5f5fb5bf4d-77kz8
+```
+
+You can also "follow" the logs
+
+```
+kubectl logs -f nginx-deployment-5f5fb5bf4d-77kz8
+```
+
+### Adding further pods
+
+Another aspect you might have to do when operating a kubernetes cluster is to increase the amount of pods in order to handle the load. Essentially spread the load out over more containers - remember that load balancer concept 😉
+
+Let's double our capacity of NGiNX pods - open up the deployment.yaml and change the replicas value to 6 instead of 3. Save the file and then re-apply it to your cluster in the exact same way
+
+```
+kubectl apply -f deployment.yaml
+```
+
+Now have a look at how many pods are running.
+
+### Kubernetes services
+
+Now you've got your pods running its time to expose access to them via a [service](https://kubernetes.io/docs/concepts/services-networking/service/)
+
+Have a look over the [service.yaml](./kubernetes-example/service.yaml) file located in the **kubernetes-example** directory.
+
+Let's create the service
+
+```
+kubectl apply -f service.yaml
+```
+
+Then have a look at your running services
+
+```
+kubectl get services
+```
+
+You should see output similar to:
+
+```
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP    4h56m
+my-service   ClusterIP   10.110.170.104   <none>        3000/TCP   6s
+```
+
+### Port-forwarding for testing
+
+The service defined some port mappings.
+
+It specified that the service will **listen** on **port 3000** and **send traffic** to **port 80** on the containers.
+
+Run the 
+
+
+
+
+
+## Submission Process
+
+Given the nature of using the Docker tool, much of what you will be doing is running commands so as part of submitting you work you will complete the [SOLUTION.md](./SOLUTION.md) file so that it acts as a study guide for completing docker.
+
+1. Fork this repository
+
+2. Complete the [SOLUTION.md](./SOLUTION.md) file
+
+3. Share your repository link as indicated
 
 
 
