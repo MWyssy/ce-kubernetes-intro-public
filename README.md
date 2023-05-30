@@ -195,21 +195,45 @@ kubectl get services
 You should see output similar to:
 
 ```
-NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP    4h56m
-my-service   ClusterIP   10.110.170.104   <none>        3000/TCP   6s
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP          5h49m
+my-service   NodePort    10.110.170.104   <none>        3000:30377/TCP   53m
 ```
 
-### Port-forwarding for testing
+### Viewing your NGiNX app in the browser
 
 The service defined some port mappings.
 
 It specified that the service will **listen** on **port 3000** and **send traffic** to **port 80** on the containers.
 
-Run the 
+Notice that under the **PORT(S)** column it seemed to list some ports. In the example above it lists **3000:30377**, review what yours lists and try going to [http://localhost:PORT-NUMBER](http://localhost:PORT-NUMBER).
 
+So in the example above you would visit
 
+[http://localhost:30377](http://localhost:30377)
 
+Were you able to see the NGiNX **Welcome to nginx!** page?
+
+🎉🎉🎉 You've just deployed your first container and service to Kubernetes!! Well done!
+
+### Extension exercise
+
+In the exercise you deployed a the NGiNX container to Kubernetes.
+
+By default, Kubernetes will "pull" this container image from Docker Hub. 
+
+In the extension it's time to try and deploy your own custom container - the API 
+
+In order to do this you will need to:
+
+* Make sure you have built a Docker image for the Node API (as part of the Docker exercises) and can run that docker image locally using Docker
+    * **🗒️ NOTE:** If you have built your docker image on a Mac with an Apple Silion chip then you will need to rebuild the docker image in order for it to work on non-mac machines. [See the note here](https://docs.docker.com/get-started/04_sharing_app/#run-the-image-on-a-new-instance)
+* Create a free Docker Hub account 
+* Push your image up to your Docker Hub account (see the link in Further reading)
+* Update the [deployment.yaml](./kubernetes-myapp/deployment.yaml) located in the **kubernetes-myapp** directory
+* Update the [service.yaml](./kubernetes-myapp/service.yaml) located in the **kubernetes-myapp** directory
+
+**💡 Hint:** You can use the example [deployment.yaml](./kubernetes-example/deployment.yaml) and [service.yaml](./kubernetes-example/service.yaml) as a basis for creating your own deployment and service.
 
 
 ## Submission Process
@@ -220,7 +244,13 @@ Given the nature of using the Docker tool, much of what you will be doing is run
 
 2. Complete the [SOLUTION.md](./SOLUTION.md) file
 
-3. Share your repository link as indicated
+3. If you worked on the extension - make sure you have saved, committed and pushed your service and deployment YAML files
+
+4. Share your repository link as indicated
+
+## Further reading
+
+[Pushing images to Docker Hub](https://docs.docker.com/get-started/04_sharing_app/)
 
 
 
