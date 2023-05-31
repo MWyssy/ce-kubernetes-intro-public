@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-node-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-node-server
+  template:
+    metadata:
+      labels:
+        app: my-node-server
+    spec:
+      containers:
+        - name: node-api-container
+          image: mwyssy/node-api-container:1.0
+          ports:
+            - containerPort: 3000
