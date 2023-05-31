@@ -216,7 +216,7 @@ Were you able to see the NGiNX **Welcome to nginx!** page?
 
 🎉🎉🎉 You've just deployed your first container and service to Kubernetes!! Well done!
 
-### Extension exercise
+### Extension exercise
 
 In the exercise you deployed a the NGiNX container to Kubernetes.
 
